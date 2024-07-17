@@ -1,0 +1,83 @@
+//Design code of Basic gates
+module logicgates(p,q,r,s,t,u,v,a,b);
+input a,b;
+output p,q,r,s,t,u,v;
+and(p,a,b);
+or(q,a,b);
+not(r,a);
+nor(s,a,b);
+nand(t,a,b);
+xor(u,a,b);
+xnor(v,a,b);
+endmodule
+
+// Test bench of Basic logic gates
+module tb_logicgates();
+reg a,b;
+wire p,q,r,s,t,u,v;
+logicgates uut(p,q,r,s,t,u,v,a,b);
+initial
+begin
+a=0;b=0;
+#10 a=0;b=1;
+#10 a=1;b=0;
+#10 a=1;b=1;
+#20 $finish;
+end
+endmodule
+
+//Design code for Full adder
+module fulladder(s,c,a,b,cin);
+input a,b,cin;
+output s,c;
+assign s=(a^b)^cin;
+assign c=(a&b)|(b&cin)|(cin&a);
+endmodule
+
+//Test bench for Full adder
+module tb_fulladder();
+reg a,b,cin;
+wire s,c;
+fulladder uut(s,c,a,b,cin);
+initial
+begin
+a=0;b=0;cin=0;
+#20 a=0;b=0;cin=1;
+#20 a=0;b=1;cin=0;
+#20 a=0;b=1;cin=1;
+#20 a=1;b=0;cin=0;
+#20 a=1;b=0;cin=1;
+#20 a=1;b=1;cin=0;
+#20 a=1;b=1;cin=1;
+#20 $finish;
+end
+endmodule
+
+//Design code for Multiplexer
+module mux4to1(out,s1,s0,I0,I1,I2,I3);
+input s1,s0,I0,I1,I2,I3;
+output out;
+wire s1n,s0n,y0,y1,y2,y3;
+not(s1n,s1);
+not(s0n,s0);
+and(y0,s1n,s0n,I0);
+and(y1,s1n,s0,I1);
+and(y2,s1,s0n,I2);
+and(y3,s1,s0,I3);
+or(out,y0,y1,y2,y3);
+endmodule
+
+//Test bench for Multiplexer
+module tb_mux4to1();
+reg s1,s0,I0,I1,I2,I3;
+wire out;
+mux4to1 uut(out,s1,s0,I0,I1,I2,I3);
+initial
+begin
+I0=0;I1=1;I2=0;I3=1;s1=0;s0=0;
+#50 s1=0;s0=1;
+#50 s1=1;s0=0;
+#50 s1=1;s0=1;
+#50 $finish;
+end
+endmodule
